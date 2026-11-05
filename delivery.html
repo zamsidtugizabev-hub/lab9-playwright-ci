@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Расчет доставки</title>
+</head>
+<body>
+  <h1>Расчет стоимости доставки</h1>
+
+  <label for="amount">Сумма заказа, ₸</label>
+  <input id="amount" type="text">
+
+  <label for="zone">Зона доставки</label>
+  <select id="zone">
+    <option value="city">city</option>
+    <option value="region">region</option>
+  </select>
+
+  <button id="calc" type="button">Рассчитать</button>
+
+  <p id="error" style="color:red"></p>
+  <p id="result"></p>
+
+  <script>
+    // Правила расчета:
+    //  - сумма >= 10000  -> бесплатно
+    //  - иначе city = 500, region = 1000
+    function deliveryCost(value, zone) {
+      if (value >= 10000) return 0;
+      return zone === 'city' ? 500 : 1000;
+    }
+
+    document.getElementById('calc').addEventListener('click', function () {
+      var raw = document.getElementById('amount').value.trim();
+      var zone = document.getElementById('zone').value;
+      var err = document.getElementById('error');
+      var res = document.getElementById('result');
+      err.textContent = '';
+      res.textContent = '';
+
+      var value = Number(raw);
+      if (raw === '' || isNaN(value) || value < 0) {
+        err.textContent = 'Введите корректную сумму';
+        return;
+      }
+      var cost = deliveryCost(value, zone);
+      res.textContent = cost === 0 ? 'Доставка бесплатно' : 'Доставка: ' + cost + ' ₸';
+    });
+  </script>
+</body>
+</html>
