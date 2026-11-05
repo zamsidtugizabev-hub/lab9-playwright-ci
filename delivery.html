@@ -26,7 +26,7 @@
     //  - сумма >= 10000  -> бесплатно
     //  - иначе city = 500, region = 1000
     function deliveryCost(value, zone) {
-      if (value > 10000) return 0;
+      if (value >= 10000) return 0;
       return zone === 'city' ? 500 : 1000;
     }
 
